@@ -81,19 +81,19 @@ app.get("/api/skincare/:id", (req, res) => {
 app.get("/api/shop", (req, res) => {
     const category = req.query.category;
 
-    db.collection(SKINCARE_COLLECTION).find({}).toArray((err, docs) => {
+    db.collection(SKINCARE_COLLECTION).find({"category": category}).sort({"rating": 1}).toArray((err, docs) => {
         if (err) {
             handleError(res, err.message, "Failed to get skincare by category");
         } else {
-            let allSkincare = docs;
-            let result = [];
-            for (const skincare of allSkincare) {
-                if(skincare.category == category) {
-                    result.push(skincare);
-                }
-            }
-
-            result.sort((a, b) => (a.rating > b.rating) ? -1 : 1);
+            // let allSkincare = docs;
+            // let result = [];
+            // for (const skincare of allSkincare) {
+            //     if(skincare.category == category) {
+            //         result.push(skincare);
+            //     }
+            // }
+            //
+            // result.sort((a, b) => (a.rating > b.rating) ? -1 : 1);
             res.status(200).json(result);
         }
     });
